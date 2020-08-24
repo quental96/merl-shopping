@@ -14,7 +14,7 @@ Originally, the MERL dataset is adapted to action detection, which ensues that t
 The aim of this repo is to be able to use the dataset for action recognition also. The ```utils``` folder thus contains:
 
 * ```det2rec.py``` : separate videos into small numpy clips and store label information in a pandas dataset
-* ```test.py```verify that class distribution is the same after detection to recognition codes
+* ```test.py``` : verify that class distribution is the same after detection to recognition codes
 
 <br/>
 
