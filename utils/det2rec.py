@@ -7,9 +7,11 @@ import pandas as pd
 from scipy.io import loadmat
 print('\n')
 
+
 parser = argparse.ArgumentParser(description='Detection to recognition for MERL Shopping.')
 parser.add_argument('--start', default=1, type=int, help='start video')
 parser.add_argument('--end', default=1, type=int, help='end video')
+
 
 def data_info():
   os.chdir(os.path.dirname(os.getcwd()))
@@ -25,6 +27,9 @@ def data_info():
   
   actions = glob.glob('labels/' + '/*.mat')
   videos = glob.glob('videos/' + '/*.mp4')
+
+  #actions = sorted(glob.glob('labels/' + '/*.mat'))
+  #videos = sorted(glob.glob('videos/' + '/*.mp4'))
   
   class_distribution = [0]*5
   for action in actions:
@@ -47,6 +52,7 @@ def crop_center_square(frame):
 
 def cv2npy(video):
   id_str = os.path.basename(video)
+  print(id_str)
   
   cap = cv2.VideoCapture(video)
   print('Stream start.')
@@ -123,15 +129,22 @@ def main():
   start_video = args.start
   end_video = args.end
 
-  df = pd.DataFrame(columns=['name', 'class'])
-
   for i in range(start_video, end_video+1):
+
+    df = pd.DataFrame(columns=['name', 'class'])
+
     j = 1
     video = videos[i-1]
+
     os.mkdir(f'clips/video_{i}')
     os.mkdir(f'flow_clips/video_{i}')
 
+    print(f'video_{i}')
+
+    #id_str = os.path.basename(video) ###
+
     id_str, clip_mat, flow_clip_mat = cv2npy(video)
+    print(id_str)
     id_str = id_str[:-8] # Remove .mp4 extension and text for id.
 
     idx = actions.index('labels/' + id_str + 'label.mat')
@@ -142,12 +155,14 @@ def main():
       #print(value[0])
       for start, stop in value[0]:
         np.save(f'clips/video_{i}/clip_{j}', clip_mat[start:stop, ...])
-        #print(clip_mat[start:stop, ...].shape)
+        print(clip_mat[start:stop, ...].shape)
         np.save(f'flow_clips/video_{i}/flow_clip_{j}', flow_clip_mat[start:stop, ...])
-        #print(flow_clip_mat[start:stop, ...].shape)
+        print(flow_clip_mat[start:stop, ...].shape)
         df = df.append({'name' : f'clip_{j}' , 'class' : index+1}, ignore_index=True) 
         j+=1
+
     df.to_csv(f'dataframes/dataframe_{i}.csv', index=False)
+
   return
 
 
