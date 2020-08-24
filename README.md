@@ -2,7 +2,7 @@
 
 The MERL Shopping Dataset is develloped by MERL ([Mitsubishi Electric Research Laboratories](https://www.merl.com/demos/merl-shopping-dataset)) for training and testing of action detection algorithms.
 
-Take a look at the original [README.md](https://github.com/quental96/merl-shopping/blob/master/README.md) here.
+Take a look at the original [README.md](https://github.com/quental96/merl-shopping/blob/master/ORIGINAL.md) here.
 
 <br/>
 
